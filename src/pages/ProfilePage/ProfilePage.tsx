@@ -12,7 +12,7 @@ const ProfilePage = () => {
     getProfile()
         .then((userInfo) => setUserInfo(userInfo))
         .catch((error) => {
-          alert(error);
+          console.error(error);
         });
   }, [setUserInfo]);
 
