@@ -1,12 +1,15 @@
 import { API_URLS } from './index.ts';
 import axios from 'axios';
 import {
+  ErrorResponseResult,
   LoginErrorResponse,
   LoginResponse,
   LoginResponseResult,
-  ErrorResponseResult,
   ProfileResponseResult,
-  TLoginForm, UserResult, ProfileUpdate
+  Shipment,
+  ShipmentResponseResult,
+  TLoginForm,
+  UserResult
 } from '../types.ts';
 
 
@@ -47,7 +50,7 @@ export const logoutUser = (): Promise<ErrorResponseResult> => {
   });
 };
 
-export const updateProfile = (data: ProfileUpdate): Promise<UserResult> => {
+export const updateProfile = (data: UserResult): Promise<UserResult> => {
   return new Promise((resolve, reject) => {
     axios.put<ProfileResponseResult>(`${ API_URLS.imrev }/profile/update`, data)
         .then((response) => {
@@ -55,6 +58,18 @@ export const updateProfile = (data: ProfileUpdate): Promise<UserResult> => {
         })
         .catch((error) => {
           reject(error.response?.data as ErrorResponseResult);
+        });
+  });
+};
+
+export const getShipmentsMethods = (): Promise<Shipment[]> => {
+  return new Promise((resolve, reject) => {
+    axios.get<ShipmentResponseResult>(`${ API_URLS.imrev }/shipments`)
+        .then((response) => {
+          resolve(response.data.result);
+        })
+        .catch((error) => {
+          reject(error.response?.data as LoginErrorResponse);
         });
   });
 };

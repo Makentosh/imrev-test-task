@@ -3,7 +3,7 @@ import { useFormContext } from 'react-hook-form';
 import { FC, useState } from 'react';
 import { EyeCloseIcon, EyeIcon } from '../../assets/icons';
 
-const FormTextField: FC<TextFieldProps> = ({ required, name, type, placeholder, className }) => {
+const FormTextField: FC<TextFieldProps> = ({ required, name, type = 'text', placeholder, className, label }) => {
   const { register, formState: { errors } } = useFormContext();
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -25,6 +25,8 @@ const FormTextField: FC<TextFieldProps> = ({ required, name, type, placeholder, 
               }
             </div>
         ) }
+
+        { label && <label className="block mb-2 text-sm font-medium">{ label }</label> }
 
 
         <input type={ type === 'password' ? showPassword ? 'text' : 'password' : 'text' }

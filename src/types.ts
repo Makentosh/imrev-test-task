@@ -1,13 +1,12 @@
-import React from 'react';
-
 export type TLoginForm = {
   email: string,
   password: string
 }
 
 export type TextFieldProps = {
+  label?: string,
   name: string,
-  type: string,
+  type?: string,
   placeholder?: string,
   required?: boolean
   className?: string,
@@ -27,6 +26,11 @@ export type LoginResponse = {
 export type ProfileResponseResult = {
   success: boolean;
   result: UserResult
+}
+
+export type ShipmentResponseResult = {
+  success: boolean;
+  result: Shipment[]
 }
 
 export type LoginErrorResponse = {
@@ -51,32 +55,32 @@ export type Shipment = {
 }
 
 export type UserResult = {
-  promo_code: number | null,
-  id: number | null,
+  promo_code?: number | null,
+  id?: number | null,
   first_name: string,
   last_name: string,
-  middle_name: string,
-  birthday: string | null,
-  gender: string | null,
-  email: string | null,
-  phone: string,
-  payment_id: number,
-  shipment: {
-    shipment_id: number | null,
-    shipment_type: string | null,
-    region: string | null,
-    region_guid: string | null,
-    city: string | null,
-    city_guid: string | null,
-    warehouse: string | null,
-    warehouse_guid: string | null,
-    street: string | null,
-    street_guid: string | null,
-    building: string | null,
-    apartment: string | null,
-    shipment_message: string | null
+  middle_name?: string,
+  birthday?: string | null,
+  gender?: string | null,
+  email?: string | null,
+  phone?: string,
+  payment_id?: number,
+  shipment?: {
+    shipment_id?: number | null,
+    shipment_type?: keyof typeof ShipmentType,
+    region?: string | null,
+    region_guid?: string | null,
+    city?: string | null,
+    city_guid?: string | null,
+    warehouse?: string | null,
+    warehouse_guid?: string | null,
+    street?: string | null,
+    street_guid?: string | null,
+    building?: string | null,
+    apartment?: string | null,
+    shipment_message?: string | null
   },
-  shipments: Shipment[]
+  shipments?: Shipment[]
 }
 
 export type ErrorResponseResult = {
@@ -85,12 +89,19 @@ export type ErrorResponseResult = {
 }
 
 
-export type ProfileUpdate = {
+export type ProfileFormData = {
   first_name: string,
   last_name: string,
-  middle_name?: string,
-  phone?: string,
-}
+  middle_name: string,
+  phone: string,
+
+  shipment_type: keyof typeof ShipmentType,
+  city_guid: string | null,
+  warehouse_guid: string | null
+  street_guid: string | null,
+  building: string | null,
+  apartment: string | null,
+};
 
 export type NpCityType = {
   Description: string,
@@ -129,26 +140,11 @@ export type NpRequestResult<T> = {
   infoCodes: unknown[]
 }
 
-export type SuggestionType = {
-  value: string;
-  label: string;
-}
-
-export type BaseAutocompleteProps = {
-  name: string;
-  placeholder?: string;
-  suggestions: SuggestionType[];
-  isLoading: boolean;
-  showSuggestions: boolean;
-  onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSuggestionClick: (suggestion: SuggestionType) => void;
-  onFocus: () => void;
-}
 
 export type NpWarehouseType = {
   SiteKey: number,
   Description: string,
-  DescriptionRu:string,
+  DescriptionRu: string,
   ShortAddress: string,
   ShortAddressRu: string,
   Phone: number,
@@ -158,7 +154,7 @@ export type NpWarehouseType = {
   CityRef: string,
   CityDescription: string,
   CityDescriptionRu: string,
-  SettlementRef:string,
+  SettlementRef: string,
   SettlementDescription: string,
   SettlementAreaDescription: string,
   SettlementRegionsDescription: string,
@@ -191,7 +187,7 @@ export type NpWarehouseType = {
     Thursday: string
     Friday: string
     Saturday: string
-    Sunday:string
+    Sunday: string
   },
   Delivery: {
     Monday: string
@@ -200,7 +196,7 @@ export type NpWarehouseType = {
     Thursday: string
     Friday: string
     Saturday: string
-    Sunday:string
+    Sunday: string
   },
   Schedule: {
     Monday: string
@@ -209,7 +205,7 @@ export type NpWarehouseType = {
     Thursday: string
     Friday: string
     Saturday: string
-    Sunday:string
+    Sunday: string
   },
   DistrictCode: string,
   WarehouseStatus: string,
@@ -234,45 +230,16 @@ export type NpWarehouseType = {
   Location: string
 }
 
-
-export interface ICity {
-  Description: string;
-  Ref: string;
+export type NpStreetsType = {
+  Description: string
+  Ref: string
+  StreetsType: string
+  StreetsTypeRef: string
 }
 
-export interface IWarehouse {
-  Description: string;
-  Ref: string;
-}
 
-export interface IShipment {
-  shipment_id: number;
-  shipment_type: 'warehouse' | 'courier';
-  region: string;
-  region_guid: string;
-  city: string;
-  city_guid: string;
-  warehouse: string;
-  warehouse_guid: string;
-  street: string;
-  street_guid: string;
-  building: string;
-  apartment: string;
-  shipment_message: string;
-}
+export const ShipmentType = {
+  warehouse: 'warehouse',
+  courier: 'courier'
+} as const;
 
-export interface IDeliveryForm {
-  first_name: string;
-  last_name: string;
-  middle_name?: string;
-  phone: string;
-  birthday?: string;
-  gender?: string;
-  payment_id: number;
-  shipment: IShipment;
-}
-
-export interface IStreet {
-  Description: string;
-  Ref: string;
-}
