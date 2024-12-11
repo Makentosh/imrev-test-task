@@ -1,13 +1,13 @@
 # Imrev test task
 
-1. Pull project
+1. Clone repository
 ```
-clone repository git@github.com:Makentosh/imrev-test-task.git
+git@github.com:Makentosh/imrev-test-task.git
 ```
 
 2. Create env file
 ```
-copy .env.example -> .env
+cp .env.example .env
 ```
 
 3. Install dependencies
