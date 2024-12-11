@@ -1,12 +1,26 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { FC, PropsWithChildren } from 'react';
 import useAuth from '../hooks/useAuth.ts';
+import { useAuthStore } from '../store/authStore.ts';
 
 const Interceptor: FC<PropsWithChildren> = ({ children }) => {
-  const { getAuthToken } = useAuth();
+  const { getAuthToken, removeAuthToken } = useAuth();
+  const logout = useAuthStore(state => state.logoutAction)
 
-  const errorHandler = (error: unknown) => {
+  const errorHandler = (error: AxiosError) => {
     console.error(error);
+
+    if (error.response?.status === 401 || error.response?.status === 419) {
+
+      const token = getAuthToken();
+
+      if (token) {
+        removeAuthToken();
+        logout()
+      } else {
+        logout()
+      }
+    }
   };
 
   axios.interceptors.request.use(

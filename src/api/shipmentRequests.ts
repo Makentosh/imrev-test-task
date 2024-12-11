@@ -1,15 +1,15 @@
-import { LoginErrorResponse, NpCityType, NpRequestResult, NpWarehouseType } from '../types.ts';
+import { LoginErrorResponse, NpCityType, NpRequestResult, NpStreetsType, NpWarehouseType } from '../types.ts';
 import axios from 'axios';
 import { API_URLS } from './index.ts';
 
 export const getCities = (query: string): Promise<NpRequestResult<NpCityType>> => {
   return new Promise((resolve, reject) => {
     axios.post<NpRequestResult<NpCityType>>(`${ API_URLS.novaPost }`, {
-      "apiKey": import.meta.env.VITE_APP_NOVA_POST_KEY,
-      "modelName": "AddressGeneral",
-      "calledMethod": "getCities",
-      "methodProperties": {
-        "FindByString": query
+      apiKey: import.meta.env.VITE_APP_NOVA_POST_KEY,
+      modelName: 'AddressGeneral',
+      calledMethod: 'getCities',
+      methodProperties: {
+        'FindByString': query
       }
     })
         .then((response) => {
@@ -27,7 +27,9 @@ export const getWarehouses = (cityRef: string): Promise<NpRequestResult<NpWareho
       apiKey: import.meta.env.VITE_APP_NOVA_POST_KEY,
       modelName: 'Address',
       calledMethod: 'getWarehouses',
-      methodProperties: { CityRef: cityRef },
+      methodProperties: {
+        CityRef: cityRef,
+      },
     })
         .then((response) => {
           resolve(response.data);
@@ -38,9 +40,9 @@ export const getWarehouses = (cityRef: string): Promise<NpRequestResult<NpWareho
   });
 };
 
-export const getStreets = (cityRef: string): Promise<NpRequestResult<NpWarehouseType>> => {
+export const getStreets = (cityRef: string): Promise<NpRequestResult<NpStreetsType>> => {
   return new Promise((resolve, reject) => {
-    axios.post<NpRequestResult<NpWarehouseType>>(`${ API_URLS.novaPost }`, {
+    axios.post<NpRequestResult<NpStreetsType>>(`${ API_URLS.novaPost }`, {
       apiKey: import.meta.env.VITE_APP_NOVA_POST_KEY,
       modelName: 'AddressGeneral',
       calledMethod: 'getStreet',
